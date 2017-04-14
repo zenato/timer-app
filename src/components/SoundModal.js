@@ -1,0 +1,160 @@
+import _ from 'lodash';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
+import Sound from 'react-native-sound';
+import I18n from 'react-native-i18n';
+import Header from './Header';
+import { sounds } from '../constants';
+
+const CancelButton = ({ onClose }) => (
+  <TouchableHighlight underlayColor="#2f0001" onPress={onClose}>
+    <Text style={styles.cancel}>{I18n.t('cancel')}</Text>
+  </TouchableHighlight>
+);
+
+const DoneButton = ({ onClose }) => (
+  <TouchableHighlight underlayColor="#2f0001" onPress={onClose}>
+    <Text style={styles.done}>{I18n.t('done')}</Text>
+  </TouchableHighlight>
+);
+
+export default class SoundModal extends Component {
+  static propTypes = {
+    value: PropTypes.number.isRequired,
+    visible: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      items: sounds.map(sound => ({
+        ...sound,
+        key: sound.id,
+        selected: sound.id === props.value,
+      })),
+    };
+
+    Sound.setCategory('Playback');
+
+    this.handleOnCancel = this.handleOnCancel.bind(this);
+    this.handleOnDone = this.handleOnDone.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+  }
+
+  handleOnCancel() {
+    this.props.onClose();
+    this.setState((state) => ({
+      items: state.items.map(sound => ({
+        ...sound,
+        selected: sound.id === this.props.value,
+      })),
+    }));
+  }
+
+  handleOnDone() {
+    const selected = _.head(_.filter(this.state.items, { selected: true }));
+    this.props.onClose(selected.id);
+  }
+
+  handleOnSelect(item) {
+    this.setState((state) => {
+      return {
+        items: state.items.map(sound => ({
+          ...sound,
+          selected: sound.id === item.id,
+        })),
+      };
+    });
+    this.playSound(item.filename);
+  }
+
+  playSound(filename) {
+    if (this.sound) {
+      this.sound.release();
+      this.sound = null;
+    }
+
+    this.sound = new Sound(filename, Sound.MAIN_BUNDLE, (e) => {
+      if (e) {
+        console.log('error', e);
+      } else {
+        this.sound.play(() => {
+          this.sound.release();
+          this.sound = null;
+        });
+      }
+    });
+  }
+
+  render() {
+    const { visible } = this.props;
+    return (
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={visible}
+        onRequestClose={this.handleOnCancel}
+      >
+        <Header
+          title={I18n.t('onfinish')}
+          leftButton={<CancelButton onClose={this.handleOnCancel}/>}
+          rightButton={<DoneButton onClose={this.handleOnDone}/>}
+        />
+        {this.props.visible && (
+          <FlatList
+            data={this.state.items}
+            renderItem={({ item }) => (
+              <TouchableHighlight underlayColor="#eee" onPress={() => this.handleOnSelect(item)}>
+                <View style={styles.rowContainer}>
+                  <Text style={styles.checkBox}>{item.selected ? '✓' : ''}</Text>
+                  <Text style={styles.text}>{I18n.t(item.label)}</Text>
+                </View>
+              </TouchableHighlight>
+            )}
+          />
+        )}
+      </Modal>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  cancel: {
+    color: '#ffaa00',
+    fontSize: 17,
+  },
+  done: {
+    color: '#ffaa00',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  rowContainer: {
+    height: 50,
+    paddingTop: 15,
+    borderBottomWidth: 0.5,
+    borderColor: '#ccc',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  checkBox: {
+    width: 30,
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ff5008',
+  },
+  text: {
+    fontSize: 18,
+  },
+});
+
