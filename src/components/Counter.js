@@ -16,13 +16,14 @@ type State = {
 };
 
 export default class Counter extends Component<void, Props, State> {
-  remain: number = (this.props.min * 60 + this.props.sec) * 1000;
-  startTime: number = 0;
-  timer: any = null;
-  display: any = null;
+  remainTime = (this.props.min * 60 + this.props.sec) * 1000;
+  startTime = 0;
+
+  timeout: ?number = null;
+  displayInterval: ?number = null;
 
   state = {
-    remain: this.remain,
+    remain: this.remainTime,
   };
 
   componentWillReceiveProps(props: Props) {
@@ -45,17 +46,21 @@ export default class Counter extends Component<void, Props, State> {
 
   start = () => {
     this.startTime = new Date().getTime();
-    this.timer = setTimeout(() => this.finish(), this.remain);
-    this.display = setInterval(() => {
-      const remain = Math.max(this.remain - (new Date().getTime() - this.startTime), 0);
+    this.timeout = setTimeout(() => this.finish(), this.remainTime);
+    this.displayInterval = setInterval(() => {
+      const remain = Math.max(this.remainTime - (new Date().getTime() - this.startTime), 0);
       this.setState({ remain });
     }, 200);
   };
 
   stop = () => {
-    clearInterval(this.display);
-    clearTimeout(this.timer);
-    this.remain = Math.max(this.remain - (new Date().getTime() - this.startTime), 0);
+    if (this.displayInterval) {
+      clearInterval(this.displayInterval);
+    }
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    this.remainTime = Math.max(this.remainTime - (new Date().getTime() - this.startTime), 0);
   };
 
   finish = () => {
