@@ -12,7 +12,7 @@ type Props = {
 };
 
 type State = {
-  remain: number,
+  remainTime: number,
 };
 
 export default class Counter extends Component<void, Props, State> {
@@ -23,7 +23,7 @@ export default class Counter extends Component<void, Props, State> {
   displayInterval: ?number = null;
 
   state = {
-    remain: this.remainTime,
+    remainTime: this.remainTime,
   };
 
   componentWillReceiveProps(props: Props) {
@@ -48,8 +48,8 @@ export default class Counter extends Component<void, Props, State> {
     this.startTime = new Date().getTime();
     this.timeout = setTimeout(() => this.finish(), this.remainTime);
     this.displayInterval = setInterval(() => {
-      const remain = Math.max(this.remainTime - (new Date().getTime() - this.startTime), 0);
-      this.setState({ remain });
+      const remainTime = Math.max(this.remainTime - (new Date().getTime() - this.startTime), 0);
+      this.setState({ remainTime });
     }, 200);
   };
 
@@ -69,12 +69,12 @@ export default class Counter extends Component<void, Props, State> {
   };
 
   render() {
-    const { remain } = this.state;
+    const { remainTime } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{_.padStart(Math.floor(remain / 60000), 2, '0')}</Text>
+        <Text style={styles.text}>{_.padStart(Math.floor(remainTime / 60000), 2, '0')}</Text>
         <Text style={styles.text}>:</Text>
-        <Text style={styles.text}>{_.padStart(Math.floor((remain % 60000) / 1000), 2, '0')}</Text>
+        <Text style={styles.text}>{_.padStart(Math.floor((remainTime % 60000) / 1000), 2, '0')}</Text>
       </View>
     );
   }
