@@ -1,8 +1,15 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Header = ({ title, leftButton, rightButton }) => (
+type Props = {
+  title: string,
+  leftButton: ?any,
+  rightButton: ?any,
+};
+
+const Header = ({ title, leftButton, rightButton }: Props) => (
   <View style={styles.container}>
     <View style={styles.leftButton}>
       {leftButton}
@@ -13,12 +20,6 @@ const Header = ({ title, leftButton, rightButton }) => (
     </View>
   </View>
 );
-
-Header.propsTypes = {
-  title: PropTypes.string.isRequired,
-  leftButton: PropTypes.node,
-  rightButton: PropTypes.node,
-};
 
 const styles = StyleSheet.create({
   container: {

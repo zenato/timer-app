@@ -1,26 +1,31 @@
+// @flow
+
 import _ from 'lodash';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default class Counter extends Component {
-  static propTypes = {
-    min: PropTypes.number.isRequired,
-    sec: PropTypes.number.isRequired,
-    pause: PropTypes.bool.isRequired,
-    onFinish: PropTypes.func.isRequired,
+type Props = {
+  min: number,
+  sec: number,
+  pause: boolean,
+  onFinish: () => void,
+};
+
+type State = {
+  remain: number,
+};
+
+export default class Counter extends Component<void, Props, State> {
+  remain: number = (this.props.min * 60 + this.props.sec) * 1000;
+  startTime: number = 0;
+  timer: any = null;
+  display: any = null;
+
+  state = {
+    remain: this.remain,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.remain = (props.min * 60 + props.sec) * 1000;
-    this.state = {
-      remain: this.remain,
-    };
-  }
-
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     if (this.props.pause !== props.pause) {
       if (props.pause) {
         this.stop();
@@ -38,25 +43,25 @@ export default class Counter extends Component {
     this.start();
   }
 
-  start() {
+  start = () => {
     this.startTime = new Date().getTime();
     this.timer = setTimeout(() => this.finish(), this.remain);
     this.display = setInterval(() => {
       const remain = Math.max(this.remain - (new Date().getTime() - this.startTime), 0);
       this.setState({ remain });
     }, 200);
-  }
+  };
 
-  stop() {
+  stop = () => {
     clearInterval(this.display);
     clearTimeout(this.timer);
     this.remain = Math.max(this.remain - (new Date().getTime() - this.startTime), 0);
-  }
+  };
 
-  finish() {
+  finish = () => {
     this.props.onFinish();
     this.stop();
-  }
+  };
 
   render() {
     const { remain } = this.state;

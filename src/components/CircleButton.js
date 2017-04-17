@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -7,11 +8,26 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const Button = ({ label, disabled, backgroundColor, textColor }) => {
+type Props = {
+  label: string,
+  onPress: () => void,
+  disabled: ?boolean,
+  backgroundColor: ?string,
+  textColor: ?string,
+};
+
+type ButtonProps = {
+  label: string,
+  disabled: ?boolean,
+  backgroundColor: ?string,
+  textColor: ?string,
+};
+
+const Button = ({ label, disabled, backgroundColor, textColor }: ButtonProps) => {
   return (<View
       style={[
         styles.container,
-        { backgroundColor: backgroundColor },
+        { backgroundColor },
         disabled && styles.disabledContainer,
       ]}
     >
@@ -23,23 +39,15 @@ const Button = ({ label, disabled, backgroundColor, textColor }) => {
         ]}
       >{label}</Text>
     </View>);
-}
+};
 
-const CircleButton = props => props.disabled
+const CircleButton = (props: Props) => props.disabled
   ? <Button {...props} />
   : (
     <TouchableOpacity onPress={props.onPress}>
       <Button {...props} />
     </TouchableOpacity>
   );
-
-CircleButton.propTypes = {
-  label: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  backgroundColor: PropTypes.string,
-  textColor: PropTypes.string,
-};
 
 CircleButton.defaultProps = {
   disabled: false,

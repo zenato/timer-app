@@ -1,25 +1,21 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import I18n from 'react-native-i18n';
 import CircleButton from './CircleButton';
 
-export default class ControlButton extends Component {
-  static propTypes = {
-    start: PropTypes.bool.isRequired,
-    pause: PropTypes.bool.isRequired,
-    onStart: PropTypes.func.isRequired,
-    onPause: PropTypes.func.isRequired,
-    onResume: PropTypes.func.isRequired,
-  };
+type Props = {
+  start: boolean,
+  pause: boolean,
+  onStart: () => void,
+  onPause: () => void,
+  onResume: () => void,
+  onCancel: () => void,
+};
 
-  constructor(props) {
-    super(props);
-
-    this.handleOnStart = this.handleOnStart.bind(this);
-  }
-
-  handleOnStart() {
+export default class ControlButton extends Component<void, Props, void> {
+  handleOnStart = () => {
     const { start, pause, onStart, onResume, onPause } = this.props;
     if (!start) {
       onStart();
@@ -28,7 +24,7 @@ export default class ControlButton extends Component {
     } else {
       onPause();
     }
-  }
+  };
 
   render() {
     const { start, pause, onCancel } = this.props;

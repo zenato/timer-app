@@ -1,6 +1,7 @@
+// @flow
+
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -10,9 +11,14 @@ import {
 import I18n from 'react-native-i18n';
 import { sounds } from '../constants';
 
+type Props = {
+  value: number,
+  onPress: () => void,
+};
+
 const soundLabel = id => _.get(_.head(_.filter(sounds, { id }) || sounds), 'label');
 
-const SoundStatusButton = ({ value, onPress }) => (
+const SoundStatusButton = ({ value, onPress }: Props) => (
   <TouchableHighlight onPress={onPress} underlayColor="#eee">
     <View style={styles.container}>
       <Text style={styles.label}>{I18n.t('onfinish')}</Text>
@@ -23,11 +29,6 @@ const SoundStatusButton = ({ value, onPress }) => (
     </View>
   </TouchableHighlight>
 );
-
-SoundStatusButton.propTypes = {
-  value: PropTypes.number.isRequired,
-  onPress: PropTypes.func.isRequired,
-};
 
 const styles = StyleSheet.create({
   container: {

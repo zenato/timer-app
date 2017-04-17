@@ -1,3 +1,5 @@
+// @flow
+
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -26,32 +28,34 @@ const DoneButton = ({ onClose }) => (
   </TouchableHighlight>
 );
 
-export default class SoundModal extends Component {
-  static propTypes = {
-    value: PropTypes.number.isRequired,
-    visible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
+type Props = {
+  value: number,
+  visible: boolean,
+  onClose: (id: ?number) => void,
+};
+
+type State = {
+  items: Array<Object>,
+};
+
+export default class SoundModal extends Component<void, Props, State> {
+  state = {
+    items: sounds.map(sound => ({
+      ...sound,
+      key: sound.id,
+      selected: sound.id === this.props.value,
+    })),
   };
 
-  constructor(props) {
+  sound: any = null;
+
+  constructor(props: Props) {
     super(props);
 
-    this.state = {
-      items: sounds.map(sound => ({
-        ...sound,
-        key: sound.id,
-        selected: sound.id === props.value,
-      })),
-    };
-
     Sound.setCategory('Playback');
-
-    this.handleOnCancel = this.handleOnCancel.bind(this);
-    this.handleOnDone = this.handleOnDone.bind(this);
-    this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
-  handleOnCancel() {
+  handleOnCancel = () => {
     this.props.onClose();
     this.setState((state) => ({
       items: state.items.map(sound => ({
@@ -59,14 +63,14 @@ export default class SoundModal extends Component {
         selected: sound.id === this.props.value,
       })),
     }));
-  }
+  };
 
-  handleOnDone() {
+  handleOnDone = () => {
     const selected = _.head(_.filter(this.state.items, { selected: true }));
     this.props.onClose(selected.id);
-  }
+  };
 
-  handleOnSelect(item) {
+  handleOnSelect = (item: Object) => {
     this.setState((state) => {
       return {
         items: state.items.map(sound => ({
@@ -76,9 +80,9 @@ export default class SoundModal extends Component {
       };
     });
     this.playSound(item.filename);
-  }
+  };
 
-  playSound(filename) {
+  playSound(filename: string) {
     if (this.sound) {
       this.sound.release();
       this.sound = null;

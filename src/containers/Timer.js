@@ -1,3 +1,5 @@
+// @flow
+
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
@@ -29,19 +31,12 @@ import {
 import { sounds, storageKeys } from '../constants';
 
 class Timer extends Component {
+  sound: any = null;
+
   constructor(props) {
     super(props);
 
     Sound.setCategory('Playback');
-
-    this.handleChangeTimePicker = this.handleChangeTimePicker.bind(this);
-    this.handleOnSoundStatusButton = this.handleOnSoundStatusButton.bind(this);
-    this.handleOnSoundModal = this.handleOnSoundModal.bind(this);
-    this.handleOnCancel = this.handleOnCancel.bind(this);
-    this.handleOnStart = this.handleOnStart.bind(this);
-    this.handleOnPause = this.handleOnPause.bind(this);
-    this.handleOnResume = this.handleOnResume.bind(this);
-    this.handleOnFinish = this.handleOnFinish.bind(this);
   };
 
   componentDidMount() {
@@ -60,40 +55,40 @@ class Timer extends Component {
     }
   }
 
-  handleChangeTimePicker(value) {
+  handleChangeTimePicker = (value) => {
     this.props.updateTime(value);
     AsyncStorage.setItem(storageKeys.time, `${value.min}:${value.sec}`);
-  }
+  };
 
-  handleOnSoundStatusButton() {
+  handleOnSoundStatusButton = () => {
     this.props.toggleSoundModal(true);
-  }
+  };
 
-  handleOnSoundModal(value) {
+  handleOnSoundModal = (value) => {
     this.props.toggleSoundModal(false);
     if (value) {
       this.props.updateSound(value);
       AsyncStorage.setItem(storageKeys.sound, value.toString());
     }
-  }
+  };
 
-  handleOnCancel() {
+  handleOnCancel = () => {
     this.props.done();
-  }
+  };
 
-  handleOnStart() {
+  handleOnStart = () => {
     this.props.start();
-  }
+  };
 
-  handleOnPause() {
+  handleOnPause = () => {
     this.props.pause();
-  }
+  };
 
-  handleOnResume() {
+  handleOnResume = () => {
     this.props.resume();
-  }
+  };
 
-  handleOnFinish() {
+  handleOnFinish = () => {
     const { sound } = this.props.timer;
     const selected = _.head(_.filter(sounds, { id: sound }) || sounds);
     this.playSound(selected.filename);
@@ -110,9 +105,9 @@ class Timer extends Component {
         }
       },
     ]);
-  }
+  };
 
-  playSound(filename) {
+  playSound = (filename) => {
     this.sound = new Sound(filename, Sound.MAIN_BUNDLE, (e) => {
       if (e) {
         console.log('error', e);
@@ -121,7 +116,7 @@ class Timer extends Component {
         this.sound.setNumberOfLoops(-1);
       }
     });
-  }
+  };
 
   render() {
     const { min, sec, sound, showSoundModal, start, pause } = this.props.timer;

@@ -1,6 +1,6 @@
+// @flow
 import _ from 'lodash';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -35,32 +35,30 @@ const Selector = ({ value, onChange }) => (
   </View>
 );
 
-export default class TimePicker extends Component {
-  static propTypes = {
-    min: PropTypes.number.isRequired,
-    sec: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
+type Props = {
+  min: number,
+  sec: number,
+  onChange: (val: { min: number, sec: number }) => void,
+};
+
+type State = {
+  min: number,
+  sec: number,
+};
+
+export default class TimePicker extends Component<void, Props, State> {
+  state = {
+    min: this.props.min,
+    sec: this.props.sec,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      min: props.min,
-      sec: props.sec,
-    };
-
-    this.handleChangeMin = this.handleChangeMin.bind(this);
-    this.handleChangeSec = this.handleChangeSec.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     if (this.state.min !== props.min || this.state.sec !== props.sec) {
       this.setState({ min: props.min, sec: props.sec });
     }
   }
 
-  handleChangeMin(min) {
+  handleChangeMin = (min: number) => {
     const { sec } = this.state;
     if (min === 0 && sec === 0) {
       this.setState(() => ({ min: 1, sec: 0 }));
@@ -69,9 +67,9 @@ export default class TimePicker extends Component {
       this.setState(() => ({ min }));
       this.props.onChange({ min, sec });
     }
-  }
+  };
 
-  handleChangeSec(sec) {
+  handleChangeSec = (sec: number) => {
     const { min } = this.state;
     if (min === 0 && sec === 0) {
       this.setState(() => ({ min: 1, sec: 0 }));
@@ -80,7 +78,7 @@ export default class TimePicker extends Component {
       this.setState(() => ({ sec }));
       this.props.onChange({ min, sec });
     }
-  }
+  };
 
   render() {
     return (
