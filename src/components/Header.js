@@ -5,8 +5,8 @@ import { View, Text, StyleSheet } from 'react-native';
 
 type Props = {
   title: string,
-  leftButton?: any,
-  rightButton?: any,
+  leftButton?: React$Element<any>,
+  rightButton?: React$Element<any>,
 };
 
 const Header = ({ title, leftButton, rightButton }: Props) => (
