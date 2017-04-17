@@ -23,8 +23,8 @@ type ButtonProps = {
   textColor?: string,
 };
 
-const Button = ({ label, disabled, backgroundColor, textColor }: ButtonProps) => {
-  return (<View
+const Button = ({ label, disabled, backgroundColor, textColor }: ButtonProps) => (
+  <View
     style={[
       styles.container,
       { backgroundColor },
@@ -38,8 +38,8 @@ const Button = ({ label, disabled, backgroundColor, textColor }: ButtonProps) =>
         disabled && styles.disabledText,
       ]}
     >{label}</Text>
-  </View>);
-};
+  </View>
+);
 
 const CircleButton = (props: Props) => props.disabled
   ? <Button {...props} />
