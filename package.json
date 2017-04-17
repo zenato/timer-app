@@ -5,12 +5,12 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
-        "flow": "node_modules/.bin/flow"
+		"flow": "node_modules/.bin/flow"
 	},
 	"dependencies": {
 		"lodash": "^4.17.4",
 		"react": "16.0.0-alpha.6",
-		"react-native": "0.43.2",
+		"react-native": "0.43.3",
 		"react-native-i18n": "^1.0.0",
 		"react-native-sound": "^0.9.1",
 		"react-redux": "^5.0.4",
@@ -20,7 +20,7 @@
 	"devDependencies": {
 		"babel-jest": "19.0.0",
 		"babel-preset-react-native": "1.9.1",
-		"flow-bin": "0.37.0",
+		"flow-bin": "^0.40.0",
 		"jest": "19.0.2",
 		"react-test-renderer": "16.0.0-alpha.6"
 	},

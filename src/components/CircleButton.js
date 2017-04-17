@@ -11,34 +11,34 @@ import {
 type Props = {
   label: string,
   onPress: () => void,
-  disabled: ?boolean,
-  backgroundColor: ?string,
-  textColor: ?string,
+  disabled?: boolean,
+  backgroundColor?: string,
+  textColor?: string,
 };
 
 type ButtonProps = {
   label: string,
-  disabled: ?boolean,
-  backgroundColor: ?string,
-  textColor: ?string,
+  disabled?: boolean,
+  backgroundColor?: string,
+  textColor?: string,
 };
 
 const Button = ({ label, disabled, backgroundColor, textColor }: ButtonProps) => {
   return (<View
+    style={[
+      styles.container,
+      { backgroundColor },
+      disabled && styles.disabledContainer,
+    ]}
+  >
+    <Text
       style={[
-        styles.container,
-        { backgroundColor },
-        disabled && styles.disabledContainer,
+        styles.text,
+        { color: textColor },
+        disabled && styles.disabledText,
       ]}
-    >
-      <Text
-        style={[
-          styles.text,
-          { color: textColor },
-          disabled && styles.disabledText,
-        ]}
-      >{label}</Text>
-    </View>);
+    >{label}</Text>
+  </View>);
 };
 
 const CircleButton = (props: Props) => props.disabled

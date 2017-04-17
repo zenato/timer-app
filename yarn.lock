@@ -1492,9 +1492,9 @@ find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-flow-bin@0.37.0:
-  version "0.37.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.37.0.tgz#456ebbd472d20d2d970560cea0a6b3c648878307"
+flow-bin@^0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.40.0.tgz#e10d60846d923124e47f548f16ba60fd8baff5a5"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -2869,7 +2869,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0, prop-types@^15.5.6:
+prop-types@^15.0.0:
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.6.tgz#797a915b1714b645ebb7c5d6cc690346205bd2aa"
   dependencies:
@@ -2941,9 +2941,9 @@ react-native-sound@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.9.1.tgz#b14c1bc89ab3ce07655c152a3752355e389dc6e1"
 
-react-native@0.43.2:
-  version "0.43.2"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.43.2.tgz#83cdb23d7a9cba207acbb52ad2f0b167df9b42b0"
+react-native@0.43.3:
+  version "0.43.3"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.43.3.tgz#4f8e0d8d88827553789c02ef21cbc1afb68474d0"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
