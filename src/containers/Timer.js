@@ -11,7 +11,7 @@ import {
   AsyncStorage,
   StyleSheet,
 } from 'react-native';
-import Sound from 'react-native-sound';
+import RNSound from 'react-native-sound';
 import I18n from 'react-native-i18n';
 import Header from '../components/Header';
 import Counter from '../components/Counter';
@@ -36,7 +36,7 @@ class Timer extends Component {
   constructor(props) {
     super(props);
 
-    Sound.setCategory('Playback');
+    RNSound.setCategory('Playback');
   };
 
   componentDidMount() {
@@ -108,7 +108,7 @@ class Timer extends Component {
   };
 
   playSound = (filename) => {
-    this.sound = new Sound(filename, Sound.MAIN_BUNDLE, (e) => {
+    this.sound = new RNSound(filename, RNSound.MAIN_BUNDLE, (e) => {
       if (e) {
         console.log('error', e);
       } else {
