@@ -1,3 +1,5 @@
+// @flow
+
 import {
   UPDATE_TIME,
   UPDATE_SOUND,
@@ -6,8 +8,19 @@ import {
   PAUSE,
   DONE,
 } from '../actions/types';
+import type { Action } from '../actions/timer';
 
-const initialState = {
+
+type State = {
+  min: number,
+  sec: number,
+  sound: number,
+  showSoundModal: boolean,
+  start: boolean,
+  pause: boolean,
+};
+
+const initialState: State = {
   min: 0,
   sec: 10,
   sound: 1,
@@ -16,7 +29,7 @@ const initialState = {
   pause: false,
 };
 
-export default function counter(state = initialState, action = {}) {
+export default function counter(state: State = initialState, action: Action): State {
   switch (action.type) {
     case UPDATE_TIME:
       return {

@@ -1,3 +1,5 @@
+// @flow
+
 import {
   UPDATE_TIME,
   UPDATE_SOUND,
@@ -7,19 +9,28 @@ import {
   DONE,
 } from './types';
 
-const updateTime = ({ min, sec }) => ({ type: UPDATE_TIME, min, sec });
+type Action = {
+  type: string,
+  min?: number,
+  sec?: number,
+  sound?: number,
+  show?: boolean,
+  pause?: boolean,
+};
 
-const updateSound = sound => ({ type: UPDATE_SOUND, sound });
+const updateTime = ({ min, sec }: { min: number, sec: number}): Action => ({ type: UPDATE_TIME, min, sec });
 
-const toggleSoundModal = show => ({ type: SOUND_MODAL, show });
+const updateSound = (id: number): Action => ({ type: UPDATE_SOUND, sound: id });
 
-const start = () => ({ type: START });
+const toggleSoundModal = (show: boolean): Action => ({ type: SOUND_MODAL, show });
 
-const pause = () => ({ type: PAUSE, pause: true });
+const start = (): Action => ({ type: START });
 
-const resume = () => ({ type: PAUSE, pause: false });
+const pause = (): Action => ({ type: PAUSE, pause: true });
 
-const done = () => ({ type: DONE });
+const resume = (): Action => ({ type: PAUSE, pause: false });
+
+const done = (): Action => ({ type: DONE });
 
 export {
   updateTime,
