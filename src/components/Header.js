@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import type { Element } from "react"
 
 type Props = {
   title: string,
-  leftButton?: React$Element<any>,
-  rightButton?: React$Element<any>,
+  leftButton?: Element<*>,
+  rightButton?: Element<*>,
 };
 
 const Header = ({ title, leftButton, rightButton }: Props) => (
