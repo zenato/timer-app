@@ -10,10 +10,11 @@ import {
   FlatList,
   TouchableHighlight,
 } from 'react-native';
-import Sound from 'react-native-sound';
+import RNSound from 'react-native-sound';
 import I18n from 'react-native-i18n';
 import Header from './Header';
 import { sounds } from '../constants';
+import type { Sound } from '../constants';
 
 const CancelButton = ({ onClose }) => (
   <TouchableHighlight underlayColor="#2f0001" onPress={onClose}>
@@ -34,7 +35,7 @@ type Props = {
 };
 
 type State = {
-  items: Array<Object>,
+  items: Array<Sound>,
 };
 
 export default class SoundModal extends Component<void, Props, State> {
@@ -51,7 +52,7 @@ export default class SoundModal extends Component<void, Props, State> {
   constructor(props: Props) {
     super(props);
 
-    Sound.setCategory('Playback');
+    RNSound.setCategory('Playback');
   }
 
   handleOnCancel = () => {
@@ -69,7 +70,7 @@ export default class SoundModal extends Component<void, Props, State> {
     this.props.onClose(selected.id);
   };
 
-  handleOnSelect = (item: Object) => {
+  handleOnSelect = (item: Sound) => {
     this.setState((state) => {
       return {
         items: state.items.map(sound => ({
@@ -87,7 +88,7 @@ export default class SoundModal extends Component<void, Props, State> {
       this.sound = null;
     }
 
-    this.sound = new Sound(filename, Sound.MAIN_BUNDLE, (e) => {
+    this.sound = new RNSound(filename, RNSound.MAIN_BUNDLE, (e) => {
       if (e) {
         console.log('error', e);
       } else {

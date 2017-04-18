@@ -1,3 +1,9 @@
+type Sound = {
+  id: number,
+  label: string,
+  filename: string,
+};
+
 const sounds = [
   {
     id: 1,
@@ -45,4 +51,8 @@ const storageKeys = {
 export {
   sounds,
   storageKeys,
+};
+
+export type {
+  Sound,
 };
