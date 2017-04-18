@@ -41,3 +41,7 @@ export {
   resume,
   done,
 };
+
+export type {
+  Action,
+};
